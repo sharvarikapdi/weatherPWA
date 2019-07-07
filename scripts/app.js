@@ -262,7 +262,7 @@
     // Stash the event so it can be triggered later.
     installPromptEvent = event;
     // Update the install UI to notify the user app can be installed
-    btnInstall.display = 'block';
+    btnInstall.style.display = 'block';
     btnInstall.disabled = false;
   });
   btnInstall.addEventListener('click', () => {
