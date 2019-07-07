@@ -796,25 +796,25 @@
 
 /* eslint-disable quotes, comma-spacing */
 var PrecacheConfig = [
-  ["/images/clear.png", "e17de36d2c2ddf7b068892fa4678cd31"],
-  ["/images/cloudy-scattered-showers.png", "855f638a52b7fbc1ec2a3d596fedbd28"],
-  ["/images/cloudy.png", "6b2148e05e5fe4bf2a218438afcb6d3c"],
-  ["/images/cloudy_s_sunny.png", "827577d4371bd0c83789fac7a2fe1546"],
-  ["/images/fog.png", "44f56cff88530b5e3315890d6c209ac2"],
-  ["/images/ic_add_white_24px.svg", "b09442e8f4b45894cf21566f0813453c"],
-  ["/images/ic_refresh_white_24px.svg", "21e4c77a8b98c7516d6c7a97cdbddc22"],
-  ["/images/partly-cloudy.png", "a2e10546a6f7000e1b7d5846ba492f9b"],
-  ["/images/rain.png", "5a2600b1199d1c95da554a5f97861c04"],
-  ["/images/scattered-showers.png", "ec178dbbcd45abb9db4be616801df3b0"],
-  ["/images/sleet.png", "15ee1fe8d87a5b1ca604eb56729f3f08"],
-  ["/images/snow.png", "6f9fa355f32b353a18a1dd3f89ac3fd7"],
-  ["/images/thunderstorm.png", "c4df123a44c17a1b5d1e8b33b268ea5c"],
-  ["/images/wind.png", "c1136285b55a50c206f0a96f64080767"],
-  ["/index.html", "7379e9d48a989ed934150417bfca4d00"],
-  ["/scripts/app.js", "28907c6690967f0032dcf709071b3a0f"],
-  ["/scripts/localforage-1.4.0.js", "e43786eec3db015f3fd965e34fa3afa8"],
-  ["/styles/ud811.css", "f6c2abe8994ebab91e20a4f046422b15"],
-  ["/styles/ud811.min.css", "dce60e984914148140d9a2375a3d75b6"]
+  ["/weatherPWA/images/clear.png", "e17de36d2c2ddf7b068892fa4678cd31"],
+  ["/weatherPWA/images/cloudy-scattered-showers.png", "855f638a52b7fbc1ec2a3d596fedbd28"],
+  ["/weatherPWA/images/cloudy.png", "6b2148e05e5fe4bf2a218438afcb6d3c"],
+  ["/weatherPWA/images/cloudy_s_sunny.png", "827577d4371bd0c83789fac7a2fe1546"],
+  ["/weatherPWA/images/fog.png", "44f56cff88530b5e3315890d6c209ac2"],
+  ["/weatherPWA/images/ic_add_white_24px.svg", "b09442e8f4b45894cf21566f0813453c"],
+  ["/weatherPWA/images/ic_refresh_white_24px.svg", "21e4c77a8b98c7516d6c7a97cdbddc22"],
+  ["/weatherPWA/images/partly-cloudy.png", "a2e10546a6f7000e1b7d5846ba492f9b"],
+  ["/weatherPWA/images/rain.png", "5a2600b1199d1c95da554a5f97861c04"],
+  ["/weatherPWA/images/scattered-showers.png", "ec178dbbcd45abb9db4be616801df3b0"],
+  ["/weatherPWA/images/sleet.png", "15ee1fe8d87a5b1ca604eb56729f3f08"],
+  ["/weatherPWA/images/snow.png", "6f9fa355f32b353a18a1dd3f89ac3fd7"],
+  ["/weatherPWA/images/thunderstorm.png", "c4df123a44c17a1b5d1e8b33b268ea5c"],
+  ["/weatherPWA/images/wind.png", "c1136285b55a50c206f0a96f64080767"],
+  ["/weatherPWA/index.html", "7379e9d48a989ed934150417bfca4d00"],
+  ["/weatherPWA/scripts/app.js", "28907c6690967f0032dcf709071b3a0f"],
+  ["/weatherPWA/scripts/localforage-1.4.0.js", "e43786eec3db015f3fd965e34fa3afa8"],
+  ["/weatherPWA/styles/ud811.css", "f6c2abe8994ebab91e20a4f046422b15"],
+  ["/weatherPWA/styles/ud811.min.css", "dce60e984914148140d9a2375a3d75b6"]
 ];
 /* eslint-enable quotes, comma-spacing */
 var CacheNamePrefix = 'sw-precache-v1--' + (self.registration ? self.registration.scope : '') + '-';
@@ -861,7 +861,7 @@ var populateCurrentCacheNames = function(precacheConfig,
   var currentCacheNamesToAbsoluteUrl = {};
 
   precacheConfig.forEach(function(cacheOption) {
-    var absoluteUrl = cacheOption[0] + baseUrl;
+    var absoluteUrl = new URL(cacheOption[0], baseUrl).toString();
     var cacheName = cacheNamePrefix + absoluteUrl + '-' + cacheOption[1];
     currentCacheNamesToAbsoluteUrl[cacheName] = absoluteUrl;
     absoluteUrlToCacheName[absoluteUrl] = cacheName;
@@ -895,8 +895,8 @@ var stripIgnoredUrlParameters = function(originalUrl,
   return url.toString();
 };
 
-// self.registration.scope trying to set urls for serviceworker from cache
-var mappings = populateCurrentCacheNames(PrecacheConfig, CacheNamePrefix, self.registration.scope);
+
+var mappings = populateCurrentCacheNames(PrecacheConfig, CacheNamePrefix, self.location);
 var AbsoluteUrlToCacheName = mappings.absoluteUrlToCacheName;
 var CurrentCacheNamesToAbsoluteUrl = mappings.currentCacheNamesToAbsoluteUrl;
 
